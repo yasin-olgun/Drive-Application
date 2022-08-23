@@ -1,0 +1,165 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="view-account">
+        <section class="module">
+            <div class="module-inner">
+                <div class="side-bar">
+                    <div class="user-info">
+                        <img class="img-profile img-circle img-responsive center-block"
+                             src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="">
+                        <ul class="meta list list-unstyled">
+                            <li class="name">{{user.firstName}} {{user.lastName}}
+                            </li>
+                        </ul>
+                    </div>
+                    <nav class="side-menu">
+                        <ul class="nav">
+                            <li><a href="/my-drive"><span class="fa fa-user"></span> Files</a></li>
+                            <li><a class="active" href=""><span class="fa fa-cog"></span> Shared With Me</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="content-panel">
+                    <div class="content-header-wrapper">
+                        <h2 class="title">Shared With Me</h2>
+                        <div class="actions">
+                            <input type="file" ngf-select="fileSelected(file)" ng-model="file" name="file"
+                                   class="form-control" id="file"
+                                   hidden>
+                            <!--our custom file upload button-->
+                            <label hidden style=" background-color: indigo;
+                                          color: white;
+                                          padding: 0.5rem;
+                                          font-family: sans-serif;
+                                          border-radius: 0.3rem;
+                                          cursor: pointer;
+                                          margin-top: 1rem;" for="file">Upload New Item</label>
+
+
+                        </div>
+                    </div>
+                    <div class="content-utilities">
+                        <div class="page-nav">
+                            <span class="indicator">View:</span>
+                            <div class="btn-group" role="group">
+                                <button ng-click="gridView=true;" ng-class="active:gridView" class="btn btn-default"
+                                        data-toggle="tooltip" data-placement="bottom"
+                                        title="" data-original-title="Grid View" id="drive-grid-toggle"><i
+                                        class="fa fa-th-large"></i></button>
+                                <button ng-click="gridView=false;" ng-class="active :gridView" class="btn btn-default"
+                                        data-toggle="tooltip" data-placement="bottom" title=""
+                                        data-original-title="List View" id="drive-list-toggle"><i
+                                        class="fa fa-list-ul"></i></button>
+                            </div>
+                        </div>
+                        <div class="actions">
+                            <div class="btn-group">
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button"
+                                        aria-expanded="false">All Items <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#"><i class="fa fa-file"></i> Documents</a></li>
+                                    <li><a href="#"><i class="fa fa-file-image-o"></i> Images</a></li>
+                                    <li><a href="#"><i class="fa fa-file-video-o"></i> Media Files</a></li>
+                                    <li><a href="#"><i class="fa fa-folder"></i> Folders</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button"
+                                        aria-expanded="false"><i class="fa fa-filter"></i> Sorting <span
+                                        class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Newest first</a></li>
+                                    <li><a href="#">Oldest first</a></li>
+                                </ul>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" data-toggle="tooltip"
+                                        data-placement="bottom" title="" data-original-title="Refresh"><i
+                                        class="fa fa-refresh"></i></button>
+                                <button type="button" class="btn btn-default" data-toggle="tooltip"
+                                        data-placement="bottom" title="" data-original-title="Archive"><i
+                                        class="fa fa-archive"></i></button>
+
+                                <button type="button" class="btn btn-default" data-toggle="tooltip"
+                                        data-placement="bottom" title="" data-original-title="Report spam"><i
+                                        class="fa fa-exclamation-triangle"></i></button>
+                                <button type="button" class="btn btn-default" data-toggle="tooltip"
+                                        data-placement="bottom" title="" data-original-title="Delete"><i
+                                        class="fa fa-trash-o"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input placeholder="Search" class="form-control" ng-model="f" style="margin: 0.5em">
+
+                    <div class="drive-wrapper drive-grid-view" ng-if="gridView">
+
+                        <div class="grid-items-wrapper" ng-repeat="file in files | filter:f">
+                            <div class="drive-item module text-center">
+                                <div class="drive-item-inner module-inner">
+                                    <div class="drive-item-title"><a href="/">{{file.name}}</a></div>
+                                    <div class="drive-item-thumb">
+                                        <i ng-class="icons[file.extension.toLowerCase()] " class="fa-4x"></i>
+                                    </div>
+                                </div>
+                                <div class="drive-item-footer module-footer">
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item"><a target="_self"
+                                                                        href=/user/download/{{file.uniqueName}}
+                                                                        data-toggle="tooltip" data-placement="top"
+                                                                        title=""
+                                                                        data-original-title="Download"><i
+                                                class="fa fa-download"></i></a></li>
+                                        <li class="list-inline-item"><a href="#" data-toggle="tooltip"
+                                                                        data-placement="top" title=""
+                                                                        data-original-title="Delete"><i
+                                                class="fa fa-trash" ng-click="delete(file.id)"></i></a></li>
+                                        <li class="list-inline-item"><a href="#" data-toggle="tooltip"
+                                                                        data-placement="top" title=""
+                                                                        data-original-title="Share"><i
+                                                class="fa fa-share" ng-click="shareInModal(file)"></i></a></li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="drive-wrapper drive-list-view" ng-if="!gridView">
+                        <div class="table-responsive drive-items-table-wrapper">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="type"></th>
+                                    <th class="name truncate">Name</th>
+                                    <th class="date">Uploaded</th>
+                                    <th class="size">Size</th>
+                                </tr>
+                                </thead>
+                                <tbody ng-repeat="file in files | filter:f">
+                                <tr>
+                                    <td class="type"><i ng-class="icons[file.extension.toLowerCase()]"></i></td>
+                                    <td class="name truncate"><a target="_self"
+                                                                 href="/user/download/{{file.uniqueName}}">{{file.name}}</a>
+                                    </td>
+                                    <td class="date">{{file.creationTime |
+                                        timeago:file.creationTime.moment().format();}}
+                                    </td>
+                                    <td class="size">{{file.size}}KB</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<script !src="">$(function () {
+    $("[data-toggle='tooltip']").tooltip();
+})</script>

@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Share {{file.name}} with</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <label  class="col-sm-12">Usernames</label>
+    <input type="text" class="col-md-12" name="username" ng-model="username" id="username">
+    <table class="table" ng-if="file.sharedUserIds.length>0">
+        <thead>
+        <tr>
+            <th class="name truncate">Username</th>
+
+            <th class="date">Firstname</th>
+            <th class="date">Shared</th>
+
+        </tr>
+        </thead>
+        <tbody ng-repeat="user in users track by $index">
+        <tr>
+            <td >{{user.username}}</td>
+            <td class="size">{{user.firstName}}</td>
+
+            <td class="size"><button ng-click="unshare(file.id,user.username)" class="btn-danger">UNSHARE</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok(username,file.id)">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
